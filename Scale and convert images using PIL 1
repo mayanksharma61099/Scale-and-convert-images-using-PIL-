@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+import os
+from PIL import Image
+
+def load_images(folder):
+    images = os.listdir(folder)
+    dst = "/opt/icons/"
+    try:
+        for img in images:
+            with Image.open(folder+img) as im:
+                im = Image.open(os.path.join(folder+img))
+                if im.mode != 'RGB':
+                    im = im.convert('RGB')
+                #Rotating Images 90 degree Clockwise
+                new_im = im.rotate(-90)
+                #Resizing all images from 192x192 to 128x128
+                new_im = new_im.resize((128,128))
+                #Saving all images in new file
+                new_im.save(dst + img, format = "jpeg")
+                im.close()
+
+    except IOError as e:
+        print(e)
+
+
+if __name__ == "__main__":
+    dir = load_images("/home/student-02-690a722466ad/images/")
